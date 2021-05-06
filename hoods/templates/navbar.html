@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport">
+  <style>
+    .navbar {
+      background-color: 56351e;
+      font-family: 'Vollkorn', serif;
+    }
+
+    @media screen and (max-width:992px) {
+
+      #search_form,
+      #profile,
+      .upload {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar container-fluid">
+    <div class="navbar-header">
+      {% if request.user.profile.neighborhood%}
+      <a class="nav-link" href="{% url 'home' %}"
+        style="font-size:30px;font-weight:bolder; color:white; font-family: 'Carter One', cursive; ">Nextdoor</a>
+      {% else %}
+      <a class="nav-link" href="{% url 'index' %}"
+        style="font-size:30px;font-weight:bolder; color:white; font-family: 'Carter One', cursive; ">Nextdoor</a>
+      {% endif %}
+    </div>
+    <form class="navbar-form navbar-center" role="search" id='search_form' action="{% url 'search_results' %}"
+      style='margin-top:10px;'>
+      <div class="form-group">
+        <input type="text" name="business" placeholder="Search business..." id="search">
+      </div>
+    </form>
+    <div class='nav navbar navbar-right'>
+      {% if user.is_authenticated %}
+      <div class="dropdown">
+        <a class="btn btn-default" data-toggle="dropdown"
+          style="font-weight:bolder; color:rgb(255, 255, 255);">{{ user.username }} <img
+            src='{{user.profile.profile_pic.url}}' width='18px' height='18px' style='border-radius:50%;'>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="{%url 'my_profile'%}">Profile</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/logout">Logout</a>
+        </div>
+        {% else %}
+
+        <a class='btn btn-default' href="/accounts/login/?next=/">Login</a>
+
+        {% endif %}
+        <a class='btn btn-default' href="/admin"><i class="fas fa-user"></i> Admin</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div><br><br>
+</body>
+
+</html>
