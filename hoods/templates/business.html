@@ -1,0 +1,21 @@
+{%extends 'base.html'%}
+{% load static%}
+{% block content %}
+{{block.super}}
+
+<div>
+    <h4 class='text-center'><strong>{{business.name}}</strong></h4><br><br>
+    <div class='row'>
+        <div class='col-md-1'></div>
+        <div class='col-md-5 col-lg-5'>
+            <img src={{business.pic.url}} width='100%' alt='{{business.name}}'>
+        </div>
+        <div class='col-md-5 col-lg-5' style='margin-top:30px;'>
+            <h5><b>Location: </b><span>{{business.neighborhood}}</span></h4>
+                <h5><b>Description: </b><span>{{business.description}}</span></h4>
+                    <h5><b>Contact: </b><span>{{business.contacts}}</span></h4>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
