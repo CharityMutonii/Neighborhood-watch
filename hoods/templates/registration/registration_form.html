@@ -1,0 +1,63 @@
+{%extends "registration/base.html"%} {% load bootstrap4 %}
+{% block content %}
+<style>
+  .col-md-8{
+    border-radius:20px;
+    text-align:center;
+  }
+  .form-group{
+    display:block;
+  }
+</style>
+<div class='row container'>
+  <div class='col-md-3'></div>
+  <div class='col-md-8'>
+    <div class='container'style="margin-top:100px;">
+   
+      <h3 class="text-center" style="padding-top:20px;" >Sign Up To Hoods</h3>
+      {% if form.errors %}
+        <p> Some Information Might be Incorrect </p>
+      {% endif %} 
+      <form  action="register/" method="post" style="padding: 40px;">
+        {% csrf_token %}
+  
+        <div class="form-group">
+          
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input  name="username" placeholder="username" class="form-control"  type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+            <input name="email" placeholder="E-Mail Address" class="form-control"  type="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input name="password1" placeholder="Password" class="form-control"  type="password">
+          </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input name="password2" placeholder="Confirm Password" class="form-control"  type="password">
+            </div>
+        </div><br>
+        <div class="form-group" >
+          <button type="submit" class="btn" style="width:100%; color: white;">Sign Up</button><br><br>
+          Already have an account? <a href="/accounts/login"><span style="font-weight:bold"> Sign In</span></a>
+        </div>
+      </form>
+    
+    </div>
+  </div>
+  </div>
+
+</div>
+  
+
+
+{% endblock %}
