@@ -4,111 +4,132 @@
 {% load bootstrap4 %}
 {{block.super}}
 <style>
-    .tab-pane{
-        margin:50px auto;
+    .tab-pane {
+        margin: 50px auto;
     }
 </style>
 <div class='container'>
     {% if user.is_authenticated %}
     <ul class="nav justify-content-center nav-tabs">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#overview" style="color:rgb(109, 106, 106)">Overview</a>
+            <a class="nav-link active" data-toggle="tab" href="#overview" style="color:rgb(109, 106, 106)">Overview</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#business" style="color:rgb(109, 106, 106)">Business</a>
+            <a class="nav-link" data-toggle="tab" href="#business" style="color:rgb(109, 106, 106)">Business</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#posts" style="color:rgb(109, 106, 106)">Posts</a>
+            <a class="nav-link" data-toggle="tab" href="#posts" style="color:rgb(109, 106, 106)">Posts</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#leave" style="color:rgb(109, 106, 106)">Leave the neighborhood</a>
-        </li>
-      </ul>
+        <!-- <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#leave" style="color:rgb(109, 106, 106)">Leave the
+                neighborhood</a>
+        </li> -->
+    </ul>
     <div class='tab-content'>
-    <div id='overview' class="tab-pane container active">
-        <h4 class='text-center'><strong>{{hood.name}}</strong></h4><br><br>
-        <div class='row'>
-            <div class='col-md-1'></div>
-            <div class='col-md-5 card' style='text-align:center;padding:20px;'>
-                <img src={{hood.hood_pic.url}} width='100%'>
-            </div>
-            <div class='col-md-5'>
-                <h5><b>Location: </b><span>{{hood.location}}</span></h4>
-                <h5><b>Number of occupants: </b><span>{{count}}</span></h4><br>
-                    <h5><b>Emergency Telephone numbers</b></h5><br>
-                <h5><b>Ambulance: </b><span>{{hood.health_contact}}</span></h4>
-                <h5><b>Police: </b><span>{{hood.police_contact}}</span></h4>
+        <div id='overview' class="tab-pane container active">
+
+            <div class='row'>
+                <div class="col-md-4">
+                    <div class='card' >
+                        <div class="card-header">
+                            <!-- <h5><b>Location: </b><span>{{hood.location}}</span></h4> -->
+                            <strong>{{hood.name}}</strong>
+                        </div>
+                        <div class="card-body">
+                        <img src={{hood.hood_pic.url}} width='100%'>
+                          <h6>Number of occupants:<span>{{count}}</span></h6>
+                          <h6>Ambulance:<span>{{hood.health_contact}}</span></h6>
+                          <h6>Police:<span>{{hood.police_contact}}</span></h6>
+                        </div>
+                        <div class="card-footer">
+                            <a class='btn btn-default' href="{% url 'leave' %}" style='width:100%'>leave hood</a>
+                        </div>
+                    </div>
+                    <div class='col-md-5'>
+
+
+                    </div>
+                </div>
             </div>
         </div>
+        <div id='business' class="tab-pane container fade">
+
+            <a href='/newbusiness' class='btn' style='color:rgb(109, 106, 106);background-color:white;'>Register your
+                business</a><br><br>
+            {% for business in businesses %}
+            <div class='col-md-3 card' style='text-align:center;'><br>
+                <h5><b>{{business.name}}</b></h4><br>
+                    <div>
+                        <p>{{business.description}}</p>
+                    </div>
+
+                    <a class='btn btn-default' href='/business/{{business.id}}'>View</a><br><br>
+            </div>
+            {% endfor %}
+        </div>
+        <div id='posts' class="tab-pane container fade" style='margin-top:80px;'>
+
+            <div class='row'>
+                <div class='col-md-1'></div>
+                <div class='col-md-11'>
+                    <div class='row' style='grid-gap:20px;'>
+                        {% for alert in alerts %}
+                        <div class='col-md-5 card' style='box-shadow:2px 2px 3px grey;'><br>
+                            <div><img src='{{alert.user.profile.profile_pic.url}}' width='25px' height='25px'
+                                    style='border-radius:50%; float:left;'> &nbsp; {{alert.user}} posted <br>
+                                &nbsp;<small> {{alert.date_posted}}</small></div>
+                            <hr>
+                            <h4><b>{{alert.title}}</b></h4>
+                            <div>
+                                <p>{{alert.content}}</p>
+                            </div>
+                            {% if alert.image %}
+                            <div>
+                                <img src='{{alert.image.url}}' width='100%' height='250px;'>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <br>
+
+                    <hr><br>
+
+                    <div class="container">
+                        <h4 class='text-center' style="font-weight: bold;">New Post</h4><br>
+                        <div class="main-agileinfo">
+                            <div class="agileits-top">
+                                {{form.media}}
+                                <form action="{% url 'home' %}" method="post" enctype="multipart/form-data"
+                                    id="AlertForm">
+                                    {%csrf_token%}
+
+                                    {% bootstrap_form form%}
+                                    <input class="btn btn-sm btn-default" type="submit" value="post">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div id='leave' class="tab-pane container fade text-center">
+            <p> want to leave {{hood.name}}?</p>
+            <a class='btn btn-default' href="{% url 'leave' %}">Yes</a> <a class='btn btn-danger'
+                href="{% url 'home' %}">No</a>
+        </div> -->
     </div>
-    <div id='business'class="tab-pane container fade" >
-       
-        <a href='/newbusiness' class='btn' style='color:rgb(109, 106, 106);background-color:white;'>Register your business</a><br><br>
-    {% for business in businesses %}
-        <div class='col-md-3 card' style='text-align:center;'><br>
-            <h5><b>{{business.name}}</b></h4><br>
-                <div>
-                    <p>{{business.description}}</p>
-                </div>
-                
-                <a class='btn btn-default' href='/business/{{business.id}}'>View</a><br><br>
-        </div>
-        {% endfor %}
-    </div>
-    <div id='posts' class="tab-pane container fade" style='margin-top:80px;'>
-    
-    <div class='row'>
-    <div class='col-md-1'></div>
-    <div class='col-md-11'>
-    <div class='row' style='grid-gap:20px;'>
-        {% for alert in alerts %}
-        <div class='col-md-5 card' style='box-shadow:2px 2px 3px grey;'><br>
-            <div><img src='{{alert.user.profile.profile_pic.url}}' width='25px' height='25px' style='border-radius:50%; float:left;'> &nbsp; {{alert.user}} posted <br> &nbsp;<small> {{alert.date_posted}}</small></div><hr>
-            <h4><b>{{alert.title}}</b></h4>
-                <div>
-                    <p>{{alert.content}}</p>
-                </div>
-                {% if alert.image %}
-                <div>
-                    <img src='{{alert.image.url}}' width='100%'height='250px;'>
-                </div>
-                {% endif %}
-        </div>
-        {% endfor %}
-        </div>
-    <br>
-
-    <hr><br>
-        
-    <div class="container">
-        <h4 class='text-center' style="font-weight: bold;">Post an alert</h4><br>
-        <div class="main-agileinfo">
-            <div class="agileits-top">
-                {{form.media}}
-                <form  action="{% url 'home' %}" method="post" enctype="multipart/form-data" id="AlertForm">
-                {%csrf_token%}
-
-                {% bootstrap_form form%}
-                <input  class="btn btn-sm btn-default" type="submit" value="New Alert">
-                </form>
-            </div>
-        </div>
-    </div></div></div></div>
-
-<div id='leave' class="tab-pane container fade text-center" >
-    <p>Do you confirm to leave this neighborhood?</p>
-    <a class='btn btn-success' href="{% url 'leave' %}">Yes</a> <a class='btn btn-danger' href="{% url 'home' %}">No</a>
 </div>
-</div></div>
 {% else %}
+<div>
+    {% for hood in hoods %}
     <div>
-        {% for hood in hoods %}
-        <div>
-            <h3>{{hood.name}}</h3>
-            <p>{{hood.location}}</p>
-        </div>
-        {% endfor %}
+        <h3>{{hood.name}}</h3>
+        <p>{{hood.location}}</p>
     </div>
-    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
 </div>
 {% endblock%}
