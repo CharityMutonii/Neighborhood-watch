@@ -29,7 +29,7 @@ A web application where users can login to join his neighborhood to stay in the 
 * Heroku
 
 ## Installation steps 
-* $ git clone https://github.com/CharityMutonii/Neighborhood-Watch.git
+* $ git clone https://github.com/CharityMutonii/Neighborhood-watch.git
 * $ cd nextdoor
 * $ source virtual/bin/activate
 * $ install dependancies that will create an environment for the app to run by running the command pip3 install -r requirements.txt
