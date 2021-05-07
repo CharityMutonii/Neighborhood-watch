@@ -1,0 +1,37 @@
+{%extends 'base.html'%}
+{% block content %}
+<style>
+</style>
+<div class="container">
+
+  <div>
+    {% if businesses %}
+    <h6>Found {{ businesses|length }} results</b></h6><br>
+    {% else %}
+    <h2> Found 0 businesses </h2>
+    {% endif %}
+
+  </div>
+
+  <div class="row" style="font-family: 'Montserrat', sans-serif;">
+
+    {% for business in businesses %}
+
+    <div class="col-md-8">
+      <div class='row'>
+        <div class="col-md-4">
+          <img src="{{business.pic.url}}" width='100%' alt='{{business.name}}'>
+        </div>
+        <div class='col-md-8' class='text-center' style='text-align:center'>
+          <h5><a href='/business/{{business.id}}'><b>{{business.name}}</b></a></p>
+            <p>{{business.description}}</p> <a href='/business/{{business.id}}' class='btn btn-info'>View more
+              details</a></small>
+            <hr>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+</div><br><br>
+{% endblock %}
