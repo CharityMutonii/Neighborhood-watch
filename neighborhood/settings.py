@@ -82,18 +82,45 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'neighborhood.wsgi.application'
 
+MODE=config("MODE", default="dev")
+# development
+if config('MODE')=="dev":
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.postgresql_psycopg2',
+           'NAME': config('DB_NAME'),
+           'USER': config('DB_USER'),
+           'PASSWORD': config('DB_PASSWORD'),
+           'HOST': config('DB_HOST'),
+           'PORT': '',
+       }
+       
+   }
+# production
+else:
+   DATABASES = {
+       'default': dj_database_url.config(
+           default=config('DATABASE_URL')
+       )
+   }
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hoods',
-        'USER': 'charity',
-    'PASSWORD':'21193',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'hoods',
+#         'USER': 'charity',
+#     'PASSWORD':'21193',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -137,20 +164,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
-
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 # configuring the location for media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 # Configure Django App for Heroku.
 django_heroku.settings(locals())
-
-
-
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
