@@ -26,10 +26,10 @@
     <div class="navbar-header">
       {% if request.user.profile.neighborhood%}
       <a class="nav-link" href="{% url 'home' %}"
-        style="font-size:30px;font-weight:bolder; color:white; font-family: 'Carter One', cursive; ">Nextdoor</a>
+        style="font-size:30px;font-weight:bolder; color:white; font-family: 'Carter One', cursive; ">Hoods</a>
       {% else %}
       <a class="nav-link" href="{% url 'index' %}"
-        style="font-size:30px;font-weight:bolder; color:white; font-family: 'Carter One', cursive; ">Nextdoor</a>
+        style="font-size:30px;font-weight:bolder; color:white; font-family: 'Carter One', cursive; ">Hoods</a>
       {% endif %}
     </div>
     <form class="navbar-form " role="search" id='search_form' action="{% url 'search_results' %}"

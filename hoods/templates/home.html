@@ -75,14 +75,17 @@
                     <div class='row' style='grid-gap:20px;'>
                         {% for alert in alerts %}
                         <div class='col-md-5 card' style='box-shadow:2px 2px 3px grey;'><br>
-                            <div><img src='{{alert.user.profile.profile_pic.url}}' width='25px' height='25px'
-                                    style='border-radius:50%; float:left;'> &nbsp; {{alert.user}} posted <br>
+                            <div>
+                                <img src='{{alert.user.profile.profile_pic.url}}' width='25px' height='25px'
+                                    style='border-radius:50%; float:left;'> 
+                                    &nbsp; {{alert.user}} posted <br>
+                                    <h4><b>{{alert.title}}</b></h4>
+                           
+                                <p>{{alert.content}}</p>
+                            
                                 &nbsp;<small> {{alert.date_posted}}</small></div>
                             <hr>
-                            <h4><b>{{alert.title}}</b></h4>
-                            <div>
-                                <p>{{alert.content}}</p>
-                            </div>
+                            
                             {% if alert.image %}
                             <div>
                                 <img src='{{alert.image.url}}' width='100%' height='250px;'>
